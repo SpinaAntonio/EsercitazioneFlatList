@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
+import { View, FlatList, ActivityIndicator, RefreshControl, Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import styles from './assets/styles/style';
 import Card from './assets/components/card.js';
@@ -8,6 +8,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
+  // Funzione per prendere i dati dall'API
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -23,6 +24,7 @@ export default function App() {
     }
   };
 
+  // Effetti per caricare i dati all'avvio e per il refresh
   useEffect(() => {
     fetchData();
   }, []);
@@ -33,19 +35,23 @@ export default function App() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : (
-        <FlatList
-          style={{ width: '100%' }}
-          data={data}
-          keyExtractor={(item, index) => item?.id?.toString?.() || index.toString()}
-          renderItem={({ item }) => <Card item={item} />}
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-        />
-      )}
+  <View style={styles.container}>
+    <View style={styles.header}>
+      <Text style={styles.headerTitle}>Ibei</Text>
     </View>
-  );
+    <StatusBar style="auto" />
+    {loading ? (
+      <ActivityIndicator size="large" color="#0000ff" />
+    ) : (
+      <FlatList
+        style={{ width: '100%' }}
+        data={data}
+        keyExtractor={(item, index) => item?.id?.toString?.() || index.toString()}
+        renderItem={({ item }) => <Card item={item} />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      />
+    )}
+  </View>
+);
+
 }

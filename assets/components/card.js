@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
-import styles from '../styles/style'; // <-- correggi anche questo path
+import styles from '../styles/style';
 
+// Componente Card per visualizzare i dettagli di un singolo elemento
 const Card = ({ item }) => (
   <View style={styles.card}>
     <Image source={{ uri: item.coverImage }} style={styles.coverImage} />
