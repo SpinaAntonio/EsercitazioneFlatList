@@ -44,19 +44,19 @@ export default function App() {
   const addCard = async () => {
     // Controlla se tutti i campi sono compilati tranne URL
     if (!newCard.title.trim() || !newCard.author.trim() || !newCard.price.trim()) { // Evita che vengono inseriti solo spazi
-      alert('Inserisci titolo, autore e prezzo');
+      alert('Completare tutti i campi obbligatori (Titolo, Autore, Prezzo)'); // Mostra un alert se i campi non sono compilati
       setError(true);
       return;
     }
 
     // Controlla se c'è un errore
     while (setError(true)) {
-        // Se c'è un errore, non procedere con l'inserimento
-        if (newCard.title.trim() && newCard.author.trim() && newCard.price.trim())
-          setError(false);
-        return;
+      // Se c'è un errore, non procedere con l'inserimento
+      if (newCard.title.trim() && newCard.author.trim() && newCard.price.trim())
+        setError(false);
+      return;
 
-      }
+    }
 
     const lastCard = {
       ...newCard, // Copia i dati dalla nuova card
@@ -75,13 +75,29 @@ export default function App() {
 
       const savedCard = await response.json(); // Ricevi la risposta dal server con ID
       setData([savedCard, ...data]); // Aggiungi la nuova card all'inizio della lista
-      setNewCard({ title: '', author: '', description: '', coverImage: '', price: '' }); // Resetta i campi
+
+      // Resetta i campi del form
+      setNewCard({ title: '', author: '', description: '', coverImage: '', price: '' });
       setModalVisible(false);
       setError(false);
+
     } catch (error) {
       console.error('Errore durante il salvataggio:', error);
     }
   };
+
+  const deleteCard = async (id) => {
+    // Controlla se l'ID è valido
+    try {
+      await fetch(`https://68394ff56561b8d882afd028.mockapi.io/EsFlatList/${id}`, {
+        method: 'DELETE'
+      });
+      setData(data.filter(item => item.id !== id)); // Rimuove la card dalla lista
+    } catch (error) {
+      console.error('Errore durante la cancellazione:', error);
+    }
+  };
+
 
   useEffect(() => {
     fetchData();
@@ -105,75 +121,75 @@ export default function App() {
           style={{ width: '100%' }}
           data={data}
           keyExtractor={(item, index) => item?.id?.toString?.() || index.toString()}
-          renderItem={({ item }) => <Card item={item} />}
+          renderItem={({ item }) => <Card item={item} onDelete={deleteCard} />}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         />
       )}
 
       {/* Bottone Adder */}
-      <TouchableOpacity style={styles.fab} onPress={() => setModalVisible(true)}>
-        <Text style={styles.fabText}>+</Text>
+      <TouchableOpacity style={styles.adder} onPress={() => setModalVisible(true)}>
+        <Text style={styles.adderText}>+</Text>
       </TouchableOpacity>
 
       {/* Finestra Nuova Card */}
       <Modal visible={modalVisible} animationType="slide" transparent>
-  <View style={styles.modalContainer}>
-    <View style={styles.modalContent}>
-      <Text style={styles.modalTitle}>NUOVO PRODOTTO</Text>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>NUOVO PRODOTTO</Text>
 
-      {/* Prende gli altri valori e cambia solo il titolo */}
-      <TextInput
-        placeholder="Titolo"
-        style={styles.input}
-        value={newCard.title?.toString() || ''}
-        onChangeText={text => setNewCard({ ...newCard, title: text })}
-      />
+            {/* Prende gli altri valori e cambia solo il titolo */}
+            <TextInput
+              placeholder="Titolo*"
+              style={styles.input}
+              value={newCard.title?.toString() || ''}
+              onChangeText={text => setNewCard({ ...newCard, title: text })}
+            />
 
-      <TextInput
-        placeholder="Autore"
-        style={styles.input}
-        value={newCard.author?.toString() || ''}
-        onChangeText={text => setNewCard({ ...newCard, author: text })}
-      />
+            <TextInput
+              placeholder="Autore*"
+              style={styles.input}
+              value={newCard.author?.toString() || ''}
+              onChangeText={text => setNewCard({ ...newCard, author: text })}
+            />
 
-      <TextInput
-        placeholder="Descrizione"
-        style={styles.input}
-        value={newCard.description?.toString() || ''}
-        onChangeText={text => setNewCard({ ...newCard, description: text })}
-      />
+            <TextInput
+              placeholder="Descrizione*"
+              style={styles.input}
+              value={newCard.description?.toString() || ''}
+              onChangeText={text => setNewCard({ ...newCard, description: text })}
+            />
 
-      <TextInput
-        placeholder="Immagine URL"
-        style={styles.input}
-        value={newCard.coverImage?.toString() || ''}
-        onChangeText={text => setNewCard({ ...newCard, coverImage: text })}
-      />
+            <TextInput
+              placeholder="Immagine URL"
+              style={styles.input}
+              value={newCard.coverImage?.toString() || ''}
+              onChangeText={text => setNewCard({ ...newCard, coverImage: text })}
+            />
 
-      <TextInput
-        placeholder="Prezzo"
-        style={styles.input}
-        keyboardType="numeric"
-        value={newCard.price?.toString() || ''}
-        onChangeText={text => setNewCard({ ...newCard, price: text })}
-      />
+            <TextInput
+              placeholder="Prezzo*"
+              style={styles.input}
+              keyboardType="numeric"
+              value={newCard.price?.toString() || ''}
+              onChangeText={text => setNewCard({ ...newCard, price: text })}
+            />
 
-      {/* Pulsanti di azione */}
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <TouchableOpacity
-          style={[styles.button, { backgroundColor: '#aaa' }]}
-          onPress={() => setModalVisible(false)}
-        >
-          <Text style={styles.buttonText}>Annulla</Text>
-        </TouchableOpacity>
+            {/* Pulsanti di azione */}
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <TouchableOpacity
+                style={[styles.button, { backgroundColor: '#aaa' }]}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.buttonText}>Annulla</Text>
+              </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={addCard}>
-          <Text style={styles.buttonText}>Aggiungi</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  </View>
-</Modal>
+              <TouchableOpacity style={styles.button} onPress={addCard}>
+                <Text style={styles.buttonText}>Aggiungi</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
 
 
       <View style={styles.footer}></View>
