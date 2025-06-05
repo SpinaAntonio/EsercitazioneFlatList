@@ -8,8 +8,17 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    backgroundColor: '#007aff',
-    paddingVertical: 40, // più spazio sopra e sotto
+    backgroundColor: '#113ec2',
+    paddingVertical: 20, // più spazio sopra e sotto
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+
+  },
+
+   footer: {
+    backgroundColor: '#f5f5f5',
+    paddingVertical: 22, // più spazio sopra e sotto
     paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
@@ -17,13 +26,13 @@ const styles = StyleSheet.create({
   },
 
   headerTitle: {
-    fontSize: 35,
+    fontSize: 45,
     fontWeight: 'bold',
     color: '#fff',
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 2,
-    letterSpacing: 1,
+    letterSpacing: 7,
 
   },
 
@@ -79,6 +88,62 @@ const styles = StyleSheet.create({
     color: '#007aff',
     marginTop: 4,
   },
+
+  // Nuova card
+  fab: {
+  position: 'absolute',
+  right: 20,
+  bottom: 55,
+  backgroundColor: '#113ec2',
+  width: 60,
+  height: 60,
+  borderRadius: 30,
+  justifyContent: 'center',
+  alignItems: 'center',
+  elevation: 4,
+},
+fabText: {
+  color: 'white',
+  fontSize: 30,
+  fontWeight: 'bold',
+},
+modalContainer: {
+  flex: 1,
+  justifyContent: 'center',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+},
+modalContent: {
+  margin: 20,
+  backgroundColor: 'white',
+  borderRadius: 10,
+  padding: 20,
+  elevation: 5,
+},
+modalTitle: {
+  fontSize: 20,
+  fontWeight: 'bold',
+  marginBottom: 10,
+},
+input: {
+  borderWidth: 1,
+  borderColor: '#ccc',
+  borderRadius: 8,
+  padding: 10,
+  marginBottom: 10,
+},
+button: {
+  flex: 1,
+  backgroundColor: '#007aff',
+  padding: 12,
+  margin: 5,
+  borderRadius: 8,
+  alignItems: 'center',
+},
+buttonText: {
+  color: '#fff',
+  fontWeight: 'bold',
+},
+
 });
 
 export default styles;
