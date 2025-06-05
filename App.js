@@ -8,6 +8,7 @@ import styles from './assets/styles/style';
 import Card from './assets/components/card';
 
 export default function App() {
+  // Stati iniziali
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
