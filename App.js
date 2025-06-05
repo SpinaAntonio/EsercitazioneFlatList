@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import {
   View, FlatList, ActivityIndicator, RefreshControl,
-  Text, Modal, TextInput, TouchableOpacity
+  Text, Modal, TextInput, TouchableOpacity, SafeAreaView
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import styles from './assets/styles/style';
@@ -105,7 +105,7 @@ export default function App() {
 
   // Effettua il fetch dei dati iniziali
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
 
       {/* Header */}
       <View style={styles.header}>
@@ -193,6 +193,6 @@ export default function App() {
 
 
       <View style={styles.footer}></View>
-    </View>
+    </SafeAreaView>
   );
 }
